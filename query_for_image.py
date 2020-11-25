@@ -40,7 +40,11 @@ while not quit:
     query_text=input("please input your text:")
     query_sql=f"select img from {query_anime} where text like '%{query_text}%'"
 
-    cursor.execute(query_sql)
+    try:
+        cursor.execute(query_sql)
+    except pymysql.err.ProgrammingError:
+        print("数据表输错名字了！重来！")
+        continue
 
     # print(cursor.fetchall())
     img_paths=[each[0] for each in cursor.fetchall()]
